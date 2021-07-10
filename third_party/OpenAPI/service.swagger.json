@@ -1,0 +1,125 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "GO-GRPC template",
+    "description": "the description",
+    "version": "1.0",
+    "license": {
+      "name": "Apache",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1.0/my/echo": {
+      "post": {
+        "operationId": "MyService_doEcho",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ovoEchoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ovoEchoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MyService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ovoEchoRequest": {
+      "type": "object",
+      "properties": {
+        "m_type": {
+          "$ref": "#/definitions/ovoMessageType"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "title": "| Structs"
+    },
+    "ovoEchoResponse": {
+      "type": "object",
+      "properties": {
+        "m_type": {
+          "$ref": "#/definitions/ovoMessageType"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ovoMessageType": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "NORMAL",
+        "EFFECT",
+        "CONTACT",
+        "TEXT"
+      ],
+      "default": "NONE",
+      "title": "| Enums"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

@@ -13,7 +13,7 @@ import (
 
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/ii64/go-grpc-template/examples/mock/insecure"
+	"github.com/ii64/go-grpc-template/examples/insecure"
 	"github.com/ii64/go-grpc-template/examples/mock/server"
 	_ "github.com/ii64/go-grpc-template/examples/mock/statik"
 	"github.com/ii64/go-grpc-template/gen"
@@ -68,10 +68,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Failed to dial grpc server:", err)
 	}
-
-	// http mux
-	mux := http.NewServeMux()
-
+	//
 	gwMux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{}),
 		runtime.WithProtoErrorHandler(runtime.DefaultHTTPProtoErrorHandler),
@@ -93,8 +90,10 @@ func main() {
 	if err != nil {
 		log.Fatalln("Failed to register gateway server [MyService]:", err)
 	}
-	mux.Handle("/", gwMux)
 
+	// http mux
+	mux := http.NewServeMux()
+	mux.Handle("/", gwMux)
 	err = serveOpenAPI(mux)
 	if err != nil {
 		log.Fatalln("Failed to serve OpenAPI UI")

@@ -27,10 +27,12 @@ generate:
 		-I proto/googleapis/googleapis/ \
 		-I vendor/ \
 		--go_out=paths=source_relative:./gen/ \
+		--gohttp_out=paths=source_relative:./gen/ \
 		--go-grpc_out=paths=source_relative:./gen/ \
 		--grpc-gateway_out=allow_patch_feature=false,paths=source_relative:./gen/ \
 		--swagger_out=third_party/OpenAPI/ \
-		--govalidators_out=gogoimport=true,paths=source_relative:./gen \
+		--govalidators_out=gogoimport=false,paths=source_relative:./gen \
+		--gohttpclient_out=paths=source_relative:./gen/ \
 		./proto/service.proto
 
 #	Workaround for https://github.com/grpc-ecosystem/grpc-gateway/issues/229
@@ -45,6 +47,8 @@ install:
 		github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway \
 		github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger \
 		github.com/mwitkow/go-proto-validators/protoc-gen-govalidators \
+		github.com/ii64/protoc-gen-gohttpclient \
+		github.com/ii64/protoc-gen-gohttpclient/lib \
 		github.com/rakyll/statik
 
 build:
